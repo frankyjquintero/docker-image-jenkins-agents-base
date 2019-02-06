@@ -1,30 +1,26 @@
 Jenkins Agent Docker image
 ===
 
-[![Docker Stars](https://img.shields.io/docker/stars/jenkins/slave.svg)](https://hub.docker.com/r/jenkins/slave/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/jenkins/slave.svg)](https://hub.docker.com/r/jenkins/slave/)
-[![Docker Automated build](https://img.shields.io/docker/automated/jenkins/slave.svg)](https://hub.docker.com/r/jenkins/slave/)
 
-This is a base image for Docker, which includes OpenJDK 8 and the Jenkins agent executable (slave.jar).
-This executable is an instance of the [Jenkins Remoting library](https://github.com/jenkinsci/remoting).
+Esta es una imagen base para Docker, que incluye OpenJDK 8 y el ejecutable del agente Jenkins (slave.jar).
+Este ejecutable es una instancia de la [biblioteca de Jenkins Remoting] (https://github.com/jenkinsci/remoting).
 
 ## Usage
+Esta imagen se utiliza como base para la imagen del [Agente JNLP de Docker] (https://github.com/jenkinsci/docker-jnlp-slave/).
+En esa imagen, el contenedor se inicia externamente y se adjunta a Jenkins.
 
-This image is used as the basis for the [Docker JNLP Agent](https://github.com/jenkinsci/docker-jnlp-slave/) image.
-In that image, the container is launched externally and attaches to Jenkins.
-
-This image may instead be used to launch an agent using the **Launch method** of **Launch agent via execution of command on the master**. Try for example
+En su lugar, esta imagen se puede usar para iniciar un agente utilizando el ** Método de lanzamiento ** de ** Agente de lanzamiento a través de la ejecución del comando en el maestro **. Prueba por ejemplo
 
 ```sh
 docker run -i --rm --name agent --init jenkins/slave java -jar /usr/share/jenkins/slave.jar
 ```
 
-after setting **Remote root directory** to `/home/jenkins/agent`.
+después de configurar **Directorio raíz remoto** para `/home/jenkins/agent`.
 
 ### Agent Work Directories
 
-Starting from [Remoting 3.8](https://github.com/jenkinsci/remoting/blob/master/CHANGELOG.md#38) there is a support of Work directories, 
-which provides logging by default and change the JAR Caching behavior.
+A partir de [Remoting 3.8] (https://github.com/jenkinsci/remoting/blob/master/CHANGELOG.md#38) hay un soporte de directorios de trabajo,
+que proporciona el registro de forma predeterminada y cambia el comportamiento del almacenamiento en caché de JAR.
 
 Call example:
 
@@ -34,19 +30,10 @@ docker run -i --rm --name agent1 --init -v agent1-workdir:/home/jenkins/agent je
 
 ## Configurations
 
-The image has several supported configurations, which can be accessed via the following tags:
+La imagen tiene varias configuraciones compatibles, a las que se puede acceder a través de las siguientes etiquetas:
 
-* `latest`: Latest version with the newest remoting (based on `openjdk:8-jdk`)
-* `latest-jdk11`: Latest version with the newest remoting and Java 11 (based on `openjdk:11-jdk`)
 * `alpine`: Small image based on Alpine Linux (based on `openjdk:8-jdk-alpine`)
-* `2.62`: This version bundles [Remoting 2.x](https://github.com/jenkinsci/remoting#remoting-2]), which is compatible with Jenkins servers running on Java 6 (`1.609.4` and below)
-* `2.62-alpine`: Small image with Remoting 2.x
-* `2.62-jdk11`: Versioned image for Java 11
+Solo se utilizara la version [alpine] basada en la oficial
+https://github.com/jenkinsci/docker-slave/
 
-## Java 11 Support
 
-Java 11 support is available in a preview mode.
-Only Debian-based images are provided right now.
-(see [JENKINS-54487](https://issues.jenkins-ci.org/browse/JENKINS-54487)).
-There is a probability that images for Java 11 will be changed to AdoptOpenJDK
-before the final release of Java 11 support in Jenkins.
